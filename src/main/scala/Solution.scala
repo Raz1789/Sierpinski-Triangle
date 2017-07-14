@@ -27,8 +27,8 @@ object Solution {
       case _ =>{
         val size: Int = col/math.pow(2,level - 1).toInt
         val c_shift: Int = size + 1
-        val r_shift: Int = if((row_1 / ((size +1) / 2)) == 0) c_shift else 0
-        val c_1: Int = col_1 - (c_shift*(col_1/c_shift))
+        val r_shift: Int = if(level == 1 || ((row_1/((size+1)/2))%2 == 1) ) col_1  else col_1 + c_shift/2
+        val c_1: Int = r_shift - (c_shift*(r_shift/c_shift))
         val r_1: Int = row_1 % ((size +1) / 2)
         val ch: Char = downTriangle(r_1,c_1,size)
         if(ch == '1')
