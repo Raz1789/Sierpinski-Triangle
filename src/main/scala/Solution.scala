@@ -8,23 +8,45 @@ object Solution {
     val row = 32
     val col = 63
     val limit = n + 1
-
-    def ST(row_1 :Int, col_1 :Int, level :Int, char: Char):Char = level match{
-      case 0 =>{
-        ST(row_1, col_1,level+1,'1')
+    def downTriangle(i :Int, j :Int, size :Int):Char={
+      val col_mod = math.abs(j - size/2)
+      //print(col_mod)
+      if(i >= (size + 1)/4){
+        if(col_mod <= ((size + 1)/2 - i - 1)){
+          '_'
+        } else {
+          '1'
+        }
+      } else {
+        '1'
       }
+    }
+
+    def ST(row_1 :Int, col_1 :Int, level :Int = 1, char: Char = '1'):Char = level match{
       case `limit` => char
       case _ =>{
-        ST(row_1, col_1,level+1,'1')
+        val size: Int = col/math.pow(2,level - 1).toInt
+        val c_shift: Int = size + 1
+        val r_shift: Int = if((row_1 / ((size +1) / 2)) == 0) c_shift else 0
+        val c_1: Int = col_1 - (c_shift*(col_1/c_shift))
+        val r_1: Int = row_1 % ((size +1) / 2)
+        val ch: Char = downTriangle(r_1,c_1,size)
+        if(ch == '1')
+          ST(row_1,col_1,level+1,ch)
+        else
+          '_'
       }
     }
 
     for(i <- 0 until row){
       for(j <- 0 until col){
-        if(i < math.abs(j - (col/2))){
-
+        if(i >= math.abs(j - (col/2))){
+            print(ST(i,j))
+        } else {
+            print('_')
         }
       }
+      println("")
     }
 
   }
